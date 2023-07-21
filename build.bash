@@ -16,6 +16,12 @@ IFS=$'\n\t'
 # upx
 # strip (binutils)
 
+# Make the docs too...
+nim doc \
+	--project \
+	--index:on \
+	shortpath.nim
+
 # Build the static binary and make it as small and optimized as possible:
 # https://scripter.co/nim-deploying-static-binaries/
 nim c \
