@@ -16,25 +16,19 @@ IFS=$'\n\t'
 # upx
 # strip (binutils)
 
-# Make the docs too...
-nim doc \
-	--project \
-	--index:on \
-	shortpath.nim
-
 # Build the static binary and make it as small and optimized as possible:
 # https://scripter.co/nim-deploying-static-binaries/
-nim c \
+nimble build \
 	--gcc.exe:musl-gcc \
 	--gcc.linkerexe:musl-gcc \
 	--passL:-static \
 	--opt:size \
-	-d:release \
-	shortpath.nim
+	-d:VERSION:1.0.0 \
+	-d:release
 
 # Strip the binary and compress it with UPX.
-strip --strip-all ./shortpath
-upx --best ./shortpath
+strip --strip-all ./shortpath || true
+upx --best ./shortpath || true
 ls -lah "$(readlink -f ./shortpath)"
 
 # Check that the binary is statically linked.
